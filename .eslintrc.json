@@ -9,7 +9,7 @@
       "sourceType": "module"
     },
     "plugins": ["prettier"],
-    "files": ["src/**/*.js"],
+    "files": ["src/**/*.{js,ts}"],
     "rules": {
       "no-debugger": "off",
       "no-console": 0,

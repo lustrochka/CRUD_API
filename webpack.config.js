@@ -1,47 +1,41 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const EslintPlugin = require('eslint-webpack-plugin');
 
-module.exports = {
+const PORT = process.env.PORT || 3000;
+
+const baseConfig = {
+  entry: path.resolve(__dirname, './src/index'),
   mode: 'development',
-  entry: {
-    main: path.resolve(__dirname, './src/index.js'),
-  },
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].bundle.js',
-  },
+  target: 'node',
   module: {
     rules: [
-      {
-        test: /\.html$/i,
-        use: {
-          loader: 'html-loader',
-          options: { minimize: true },
-        },
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        type: 'asset/resource',
-      },
+      { test: /\.ts$/i, use: 'ts-loader' },
     ],
   },
+  resolve: {
+    extensions: ['.ts', '.js'],
+    fallback: {
+      "http": require.resolve("stream-http"),
+      "url": require.resolve("url/"),
+      "crypto": require.resolve("crypto-browserify"),
+    },
+  },
+  output: {
+    filename: 'index.js',
+    path: path.join(__dirname, 'dist'),
+  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'src', 'index.html'),
-      filename: 'index.html',
-    }),
-    new MiniCssExtractPlugin(),
-    new EslintPlugin(),
     new CleanWebpackPlugin(),
   ],
-  stats: {
-    children: true,
-  },
+  devServer: {
+    port: PORT,
+},
+};
+
+module.exports = ({ mode }) => {
+  const isProductionMode = mode === 'prod';
+  const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
+
+  return merge(baseConfig, envConfig);
 };
