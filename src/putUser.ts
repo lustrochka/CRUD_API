@@ -6,7 +6,7 @@ export function putUser(id: string, body: string) {
 
   const index = users.findIndex((user) => user.id === id);
 
-  if (!index) return { code: 404, message: "User doesn't exist", contentType: 'text/plain' };
+  if (index === -1) return { code: 404, message: "User doesn't exist", contentType: 'text/plain' };
 
   try {
     const parsedBody = JSON.parse(body);
