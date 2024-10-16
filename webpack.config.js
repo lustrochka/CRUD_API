@@ -9,28 +9,24 @@ const baseConfig = {
   mode: 'development',
   target: 'node',
   module: {
-    rules: [
-      { test: /\.ts$/i, use: 'ts-loader' },
-    ],
+    rules: [{ test: /\.ts$/i, use: 'ts-loader' }],
   },
   resolve: {
     extensions: ['.ts', '.js'],
     fallback: {
-      "http": require.resolve("stream-http"),
-      "url": require.resolve("url/"),
-      "crypto": require.resolve("crypto-browserify"),
+      http: require.resolve('stream-http'),
+      url: require.resolve('url/'),
+      crypto: require.resolve('crypto-browserify'),
     },
   },
   output: {
     filename: 'index.js',
     path: path.join(__dirname, 'dist'),
   },
-  plugins: [
-    new CleanWebpackPlugin(),
-  ],
+  plugins: [new CleanWebpackPlugin()],
   devServer: {
     port: PORT,
-},
+  },
 };
 
 module.exports = ({ mode }) => {
