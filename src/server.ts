@@ -1,15 +1,13 @@
-import http from 'http';
+import http, { IncomingMessage, ServerResponse } from 'http';
 import { users } from './users';
 import { postUser } from './postUser';
 import { getUser } from './getUser';
 import { putUser } from './putUser';
 import { deleteUser } from './deleteUser';
 
-const PORT = process.env.PORT || 3000;
 const baseUrl = '/api/users';
 
-http
-  .createServer((req, res) => {
+const requestHandler = (req: IncomingMessage, res: ServerResponse) => {
     const { method, url } = req;
 
     if (!url) {
@@ -87,7 +85,6 @@ http
         res.end('Internal Server Error');
       }
     }
-  })
-  .listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+  }
+
+export const server = http.createServer(requestHandler);
