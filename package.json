@@ -12,7 +12,6 @@
     "@types/jest": "^29.5.13",
     "@types/supertest": "^6.0.2",
     "@types/uuid": "^10.0.0",
-    "babel-eslint": "^10.1.0",
     "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
